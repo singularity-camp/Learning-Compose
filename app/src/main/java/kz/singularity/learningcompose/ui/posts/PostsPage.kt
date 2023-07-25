@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import kz.singularity.learningcompose.ui.main.MainViewModel
+import kz.singularity.learningcompose.ui.views.Post
 import org.koin.androidx.compose.get
 
 @Composable
@@ -18,19 +19,10 @@ fun PostsPage(viewModel: MainViewModel = get()) {
         items(posts.size) {
             val post = posts[it]
             Post(
-                post = post,
-                onClick = {
-                    viewModel.onPostClick(post.id)
-                })
+                title = post.title,
+                body = post.body,
+                onClick = {}
+            )
         }
     }
-}
-
-@Composable
-fun Post(post: kz.singularity.domain.models.Post, onClick: () -> Unit) {
-    kz.singularity.learningcompose.ui.views.Post(
-        title = post.title,
-        body = post.body,
-        onClick = onClick
-    )
 }
