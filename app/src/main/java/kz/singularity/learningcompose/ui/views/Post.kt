@@ -22,7 +22,8 @@ fun Post(
     Card(
         backgroundColor = CustomTheme.colors.container,
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        elevation = 4.dp
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
