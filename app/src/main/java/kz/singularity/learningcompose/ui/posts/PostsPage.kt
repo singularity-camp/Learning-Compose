@@ -2,17 +2,23 @@ package kz.singularity.learningcompose.ui.posts
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kz.singularity.learningcompose.ui.main.MainViewModel
 import kz.singularity.learningcompose.ui.views.Post
 import org.koin.androidx.compose.get
 
 @Composable
-fun PostsPage(viewModel: MainViewModel = get()) {
+fun PostsPage(
+    viewModel: MainViewModel = get(),
+    paddingValues: PaddingValues
+) {
     val posts = viewModel.posts
     LazyColumn(
+        modifier = Modifier.padding(paddingValues),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {

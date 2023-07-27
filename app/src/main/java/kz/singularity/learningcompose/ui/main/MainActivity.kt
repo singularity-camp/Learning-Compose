@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
@@ -16,25 +17,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import kz.singularity.learningcompose.R
+import kz.singularity.learningcompose.navigation.BottomNavItems
+import kz.singularity.learningcompose.navigation.Screen
 import kz.singularity.learningcompose.ui.posts.PostsPage
 import kz.singularity.learningcompose.ui.theme.CustomTheme
 
 class MainActivity : AppCompatActivity() {
-
-    val bottomNavItems = arrayOf(
-        BottomNavItems.Posts,
-        BottomNavItems.Albums,
-        BottomNavItems.Users,
-        BottomNavItems.Profile
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,69 +47,108 @@ class MainActivity : AppCompatActivity() {
             val navController = rememberNavController()
 
             CustomTheme {
-                Column(modifier = Modifier.fillMaxSize()) {
+                Scaffold(
+                    bottomBar = { BottomNavigationBar(navHostController = navController)}
+                ) {paddingValues ->
                     NavHost(
-                        modifier = Modifier.weight(1f),
                         navController = navController,
-                        startDestination = BottomNavItems.Posts.route
+                        startDestination = BottomNavItems.Posts.screen.route
                     ) {
-                        appendAllScreens()
-                    }
-
-                    val currentBackStackEntry by navController.currentBackStackEntryAsState()
-                    BottomNavigation(
-                        modifier = Modifier,
-                        backgroundColor = Color.White
-                    ) {
-                        bottomNavItems.forEach {
-                            val isSelected = currentBackStackEntry?.destination?.route == it.route
-                            val tint = if (isSelected) {
-                                CustomTheme.colors.main_01
-                            } else {
-                                Color.Black
-                            }
-                            BottomNavigationItem(
-                                selected = isSelected,
-                                onClick = { navController.navigate(it.route) },
-                                icon = {
-                                    Icon(
-                                        imageVector = ImageVector.vectorResource(id = it.iconRes),
-                                        contentDescription = null,
-                                        tint = tint,
-                                    )
-                                })
-                        }
+                        appendAllScreens(paddingValues = paddingValues)
                     }
                 }
-
-
             }
         }
     }
 }
 
-fun NavGraphBuilder.appendAllScreens() {
-    composable(BottomNavItems.Posts.route) {
-        PostsPage()
+fun NavGraphBuilder.appendAllScreens(paddingValues: PaddingValues) {
+
+    navigation(
+        startDestination = Screen.Posts.route,
+        route = Screen.Post.route
+    ) {
+        composable(Screen.Posts.route){
+            PostsPage(paddingValues = paddingValues)
+        }
+
+        composable(Screen.PostDetail.route){
+
+        }
+
+        composable(Screen.PostsComments.route) {
+
+        }
+
     }
-    composable(BottomNavItems.Albums.route) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black)
-        )
+
+    navigation(
+        startDestination = Screen.Albums.route,
+        route = Screen.Album.route
+    ) {
+        composable(Screen.Albums.route){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
+            )
+        }
+
+        composable(Screen.AlbumPhotos.route){
+
+        }
+
     }
+
 }
 
 
-sealed class BottomNavItems(
-    @DrawableRes val iconRes: Int,
-    val route: String,
-) {
-    object Posts : BottomNavItems(iconRes = R.drawable.ic_posts, route = "Posts")
-    object Albums : BottomNavItems(iconRes = R.drawable.ic_albums, route = "Albums")
-    object Users : BottomNavItems(iconRes = R.drawable.ic_users, route = "Users")
-    object Profile : BottomNavItems(iconRes = R.drawable.ic_profile, route = "Profile")
+@Composable
+private fun BottomNavigationBar(navHostController: NavHostController) {
+    BottomNavigation(
+        backgroundColor = CustomTheme.colors.container
+    ) {
+        val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+
+        val items = listOf(
+            BottomNavItems.Posts,
+            BottomNavItems.Albums,
+            BottomNavItems.Users,
+            BottomNavItems.Profile
+        )
+        items.forEach { item ->
+
+            val selected = navBackStackEntry?.destination?.hierarchy?.any {
+                it.route == item.screen.route
+            } ?: false
+
+            BottomNavigationItem(
+                selected = selected,
+                onClick = {
+                    if (!selected) navHostController.navigateTo(item.screen.route)
+                },
+                icon = {
+                    Icon(
+                        painter = painterResource(id = item.iconResId),
+                        contentDescription = null,
+                        tint = if (selected) CustomTheme.colors.main_01 else Color.Black
+                    )
+                },
+                selectedContentColor = MaterialTheme.colors.onPrimary,
+                unselectedContentColor = MaterialTheme.colors.onSecondary
+            )
+        }
+    }
+}
+
+private fun NavHostController.navigateTo(route: String) {
+    navigate(route) {
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
 }
 
 
