@@ -25,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kz.singularity.learningcompose.R
 import kz.singularity.learningcompose.ui.posts.PostsPage
+import kz.singularity.learningcompose.ui.theme.CustomTheme
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val navController = rememberNavController()
 
-            MaterialTheme {
+            CustomTheme {
                 Column(modifier = Modifier.fillMaxSize()) {
                     NavHost(
                         modifier = Modifier.weight(1f),
