@@ -1,5 +1,6 @@
-package kz.singularity.learningcompose.di
+package kz.singularity.data.di
 
+import kz.singularity.data.network.api.PlaceholderService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -25,8 +26,8 @@ val networkModule = module {
             .build()
     }
 
-    factory<kz.singularity.data.network.api.PlaceholderService> {
-        this.get<Retrofit>().create(kz.singularity.data.network.api.PlaceholderService::class.java)
+    factory<PlaceholderService> {
+        this.get<Retrofit>().create(PlaceholderService::class.java)
     }
 
 }

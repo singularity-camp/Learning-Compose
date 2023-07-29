@@ -20,7 +20,7 @@ fun Post(
     onClick: () -> Unit,
 ) {
     Card(
-        backgroundColor = CustomTheme.colors.container,
+        backgroundColor = CustomTheme.colors.ui01,
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         elevation = 4.dp
@@ -29,11 +29,13 @@ fun Post(
             Text(
                 text = title,
                 style = CustomTheme.typography.h2,
+                color = CustomTheme.colors.text01
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = body,
                 style = CustomTheme.typography.body1,
+                color = CustomTheme.colors.text02,
                 maxLines = 5,
                 overflow = TextOverflow.Ellipsis
             )

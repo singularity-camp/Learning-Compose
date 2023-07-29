@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.sp
 
 @Immutable
 data class CustomTypography(
-//    val h1: TextStyle,
+    val h1: TextStyle,
     val h2: TextStyle,
 //    val h3: TextStyle,
 //    val h4: TextStyle,
@@ -24,16 +24,18 @@ data class CustomTypography(
 //    val overline: TextStyle
 )
 
-val LocalCustomTypography = staticCompositionLocalOf {
+val LocalTypography = staticCompositionLocalOf {
     CustomTypography(
+        h1 = TextStyle(
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+        ),
         h2 = TextStyle(
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Black
         ),
         body1 = TextStyle(
             fontSize = 16.sp,
-            color = MountainMist
         )
 
     )

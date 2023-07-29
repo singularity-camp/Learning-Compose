@@ -1,6 +1,8 @@
 package kz.singularity.learningcompose.navigation
 
 import android.net.Uri
+import com.google.gson.Gson
+import kz.singularity.learningcompose.models.PostUI
 
 
 sealed class Screen(
@@ -10,38 +12,46 @@ sealed class Screen(
     //Post
     object Post : Screen(POST_GRAPH_ROUTE)
     object Posts : Screen(POSTS)
-    object PostDetail : Screen(POST_DETAIL)
+    object PostDetail : Screen(POST_DETAIL) {
+        private const val ROUTE_FOR_ARGS = "post_detail"
+
+        fun getRouteArgs(post: PostUI): String {
+            val postJson = Gson().toJson(post)
+            return "$ROUTE_FOR_ARGS/$postJson"
+        }
+    }
+
     object PostsComments : Screen(POSTS_COMMENTS)
 
 
     //Album
     object Album : Screen(ALBUM_GRAPH_ROUTE)
-    object Albums:Screen(ALBUMS)
-    object AlbumPhotos:Screen(ALBUM_PHOTOS)
+    object Albums : Screen(ALBUMS)
+    object AlbumPhotos : Screen(ALBUM_PHOTOS)
 
 
     //User
     object User : Screen(USER_GRAPH_ROUTE)
-    object Users:Screen(USERS)
-    object UserProfile:Screen(USER_PROFILE)
+    object Users : Screen(USERS)
+    object UserProfile : Screen(USER_PROFILE)
 
 
     //Profile
     object Profile : Screen(PROFILE_GRAPH_ROUTE)
-    object CurrentProfile:Screen(CURRENT_PROFILE)
-    object ToDos:Screen(TO_DOS)
-
+    object CurrentProfile : Screen(CURRENT_PROFILE)
+    object ToDos : Screen(TO_DOS)
 
 
     internal fun String.encode() = Uri.encode(this)
 
 
     companion object {
+        const val POST = "post"
 
         //Post
         private const val POST_GRAPH_ROUTE = "post_graph"
         private const val POSTS = "posts"
-        private const val POST_DETAIL = "post_detail"
+        private const val POST_DETAIL = "post_detail/{$POST}"
         private const val POSTS_COMMENTS = "posts_comments"
 
         //Album
