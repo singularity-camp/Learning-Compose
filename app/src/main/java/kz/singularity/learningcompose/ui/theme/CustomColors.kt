@@ -11,8 +11,8 @@ data class CustomColors(
     val text01: Color,
     val text02: Color,
     val main01: Color,
-
-    )
+    val link: Color
+)
 
 val LocalColors = staticCompositionLocalOf {
     CustomColors(
@@ -20,6 +20,7 @@ val LocalColors = staticCompositionLocalOf {
         ui02 = Color.Black,
         text01 = Color.Black,
         text02 = Color(0xFF979797),
-        main01 = Color(0xFFE61771)
+        main01 = Color(0xFFE61771),
+        link = Color(0xFF0075CD)
     )
 }

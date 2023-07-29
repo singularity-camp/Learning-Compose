@@ -31,6 +31,7 @@ import androidx.navigation.navigation
 import kz.singularity.learningcompose.models.PostUI
 import kz.singularity.learningcompose.navigation.BottomNavItems
 import kz.singularity.learningcompose.navigation.Screen
+import kz.singularity.learningcompose.ui.comments.CommentsPage
 import kz.singularity.learningcompose.ui.post_detail.PostDetailPage
 import kz.singularity.learningcompose.ui.posts.PostsPage
 import kz.singularity.learningcompose.ui.theme.CustomTheme
@@ -98,7 +99,7 @@ fun NavGraphBuilder.appendAllScreens(
         }
 
         composable(Screen.PostsComments.route) {
-
+            CommentsPage(paddingValues = paddingValues)
         }
 
     }

@@ -12,7 +12,7 @@ data class CustomTypography(
     val h1: TextStyle,
     val h2: TextStyle,
 //    val h3: TextStyle,
-//    val h4: TextStyle,
+    val h4: TextStyle,
 //    val h5: TextStyle,
 //    val h6: TextStyle,
 //    val subtitle1: TextStyle,
@@ -34,9 +34,13 @@ val LocalTypography = staticCompositionLocalOf {
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
         ),
+        h4 = TextStyle(
+            fontSize = 16.sp
+        ),
         body1 = TextStyle(
             fontSize = 16.sp,
-        )
+        ),
+
 
     )
 }
