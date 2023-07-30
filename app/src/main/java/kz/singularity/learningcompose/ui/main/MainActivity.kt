@@ -18,14 +18,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import kz.singularity.learningcompose.R
+import kz.singularity.learningcompose.navigation.Destinations
+import kz.singularity.learningcompose.ui.postDetails.CommentsFromPostPage
+
+import kz.singularity.learningcompose.ui.posts.PostDetailsPage
 import kz.singularity.learningcompose.ui.posts.PostsPage
+import kz.singularity.learningcompose.ui.posts.UserPageTest
 import kz.singularity.learningcompose.ui.theme.CustomTheme
+import org.koin.androidx.compose.get
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,7 +58,8 @@ class MainActivity : AppCompatActivity() {
                         navController = navController,
                         startDestination = BottomNavItems.Posts.route
                     ) {
-                        appendAllScreens()
+                        appendAllScreens(navController)
+                        //composable("postDetailed"){ postDetailed(post = )}
                     }
 
                     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -81,14 +91,47 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-fun NavGraphBuilder.appendAllScreens() {
-    composable(BottomNavItems.Posts.route) {
-        PostsPage()
+fun NavGraphBuilder.appendAllScreens(navController: NavController) {
+    composable(Destinations.Posts) {
+        PostsPage(navController)
     }
     composable(BottomNavItems.Albums.route) {
         Box(modifier = Modifier
             .fillMaxSize()
             .background(Color.Black))
+    }
+    composable(
+        route = Destinations.PostDetails.route,
+        arguments = listOf(
+            navArgument(Destinations.PostDetails.postIdArg) { type = NavType.LongType },
+            navArgument(Destinations.PostDetails.usernameArg) { type = NavType.StringType }
+        )
+    ) { backStackEntry ->
+        val postId = backStackEntry.arguments?.getLong(Destinations.PostDetails.postIdArg)
+        val username = backStackEntry.arguments?.getString(Destinations.PostDetails.usernameArg)
+        if (postId != null && username != null) {
+            PostDetailsPage(postId = postId, username = username, navController = navController)
+        }
+    }
+    composable(
+        route = Destinations.CommentsFromPostPage.route,
+        arguments = listOf(
+            navArgument(Destinations.CommentsFromPostPage.postIdArg) { type = NavType.LongType }
+        )
+    ) { backStackEntry ->
+        val postId = backStackEntry.arguments?.getLong(Destinations.CommentsFromPostPage.postIdArg)
+        if (postId != null) {
+            val viewModel = get<MainViewModel>()
+
+            // Fetch comments for the specified postId
+            viewModel.getCommentFromPost(postId)
+
+            // Get the comments from the view model's state
+            val comments = viewModel.commentFromPost
+
+            // Call the CommentsFromPostPage composable and pass the comments list
+            CommentsFromPostPage(comments = comments)
+        }
     }
 }
 

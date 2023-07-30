@@ -3,7 +3,9 @@ package kz.singularity.data.repository
 import kz.singularity.data.db.room.dao.PostDao
 import kz.singularity.data.network.api.PlaceholderService
 import kz.singularity.data.network.mapper.PostsMapper
+import kz.singularity.data.network.response.PostResponse
 import kz.singularity.domain.models.Post
+import kz.singularity.domain.models.PostDetails
 
 internal class PostRepositoryImpl(
     private val placeholderService: PlaceholderService,
@@ -39,4 +41,11 @@ internal class PostRepositoryImpl(
         val postResponse = placeholderService.getPostDetails(postId)
         return postsMapper.fromRemoteToDomain(postResponse)
     }
+
+ /*   override suspend fun getUserIdFromPost(postId: Long): PostDetails {
+        val userId = placeholderService.getUserIdFromPost(postId)
+        return postsMapper.fromRemoteToDomain(userId)
+    }*/
+
+
 }

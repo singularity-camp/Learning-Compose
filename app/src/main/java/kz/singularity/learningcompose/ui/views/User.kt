@@ -16,10 +16,10 @@ import kz.singularity.learningcompose.ui.theme.CustomTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PostComment(
-    commentTitle: String,
+fun User(
+    username: String,
     userEmail: String,
-    commentBody: String,
+    name: String,
 ) {
     Card(
         backgroundColor = CustomTheme.colors.ui01,
@@ -31,35 +31,29 @@ fun PostComment(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = commentTitle,
+                text = username,
                 style = MaterialTheme.typography.h2,
                 color = CustomTheme.colors.text01
             )
-            Spacer(modifier = Modifier.size(8.dp))
+            Spacer(modifier = Modifier.size(24.dp))
+            FullNameStyle(fullName = name)
+            Spacer(modifier = Modifier.size(16.dp))
             Email(email = userEmail)
-            Spacer(modifier = Modifier.size(12.dp))
-            Text(
-                text = commentBody,
-                style = MaterialTheme.typography.body1,
-                color = CustomTheme.colors.text01,
-                maxLines = 4,
-                overflow = TextOverflow.Ellipsis
-            )
         }
     }
 }
 
 @Composable
-fun Email(email: String) {
+fun FullNameStyle(fullName: String) {
     Row {
         Text(
-            text = stringResource(id = R.string.email) + ":",
+            text = stringResource(id = R.string.fullname) + ":",
             style = MaterialTheme.typography.h4,
             color = CustomTheme.colors.text02
         )
         Spacer(modifier = Modifier.size(8.dp))
-        Text(text = email,
+        Text(text = fullName,
             style = MaterialTheme.typography.h4,
-            color = CustomTheme.colors.links)
+            color = CustomTheme.colors.text01)
     }
 }
