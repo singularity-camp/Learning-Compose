@@ -19,7 +19,7 @@ data class CustomTypography(
 //    val subtitle2: TextStyle,
     val body1: TextStyle,
 //    val body2: TextStyle,
-//    val button: TextStyle,
+    val button: TextStyle,
 //    val caption: TextStyle,
 //    val overline: TextStyle
 )
@@ -40,6 +40,10 @@ val LocalTypography = staticCompositionLocalOf {
         body1 = TextStyle(
             fontSize = 16.sp,
         ),
+        button = TextStyle(
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold
+        )
 
 
     )

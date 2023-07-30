@@ -1,6 +1,8 @@
 package kz.singularity.learningcompose.di
 
+import kz.singularity.domain.use_cases.GetAlbumsUseCase
 import kz.singularity.domain.use_cases.GetCommentsUseCase
+import kz.singularity.domain.use_cases.GetPhotosByAlbumIdUseCase
 import kz.singularity.domain.use_cases.GetPostCommentsUseCase
 import kz.singularity.domain.use_cases.GetPostDetailsUseCase
 import kz.singularity.domain.use_cases.GetPostsUseCase
@@ -15,5 +17,7 @@ val useCaseModule = module {
     factory { GetUserByIdUseCase(get()) }
     factory { GetUsersUseCase(get()) }
     factory { GetCommentsUseCase(get()) }
+    factory { GetAlbumsUseCase(get()) }
+    factory { GetPhotosByAlbumIdUseCase(get() ) }
 
 }

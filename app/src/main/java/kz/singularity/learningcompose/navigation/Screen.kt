@@ -2,6 +2,7 @@ package kz.singularity.learningcompose.navigation
 
 import android.net.Uri
 import com.google.gson.Gson
+import kz.singularity.learningcompose.models.AlbumUI
 import kz.singularity.learningcompose.models.PostUI
 
 
@@ -27,7 +28,14 @@ sealed class Screen(
     //Album
     object Album : Screen(ALBUM_GRAPH_ROUTE)
     object Albums : Screen(ALBUMS)
-    object AlbumPhotos : Screen(ALBUM_PHOTOS)
+    object AlbumPhotos : Screen(ALBUM_PHOTOS){
+        private const val ROUTE_FOR_ARGS = "album_photos"
+
+        fun getRouteArgs(album:AlbumUI):String{
+            val albumJson = Gson().toJson(album)
+            return "$ROUTE_FOR_ARGS/$albumJson"
+        }
+    }
 
 
     //User
@@ -47,6 +55,7 @@ sealed class Screen(
 
     companion object {
         const val POST = "post"
+        const val ALBUM = "album"
 
         //Post
         private const val POST_GRAPH_ROUTE = "post_graph"
@@ -57,7 +66,7 @@ sealed class Screen(
         //Album
         private const val ALBUM_GRAPH_ROUTE = "album_graph"
         private const val ALBUMS = "albums"
-        private const val ALBUM_PHOTOS = "album_photos"
+        private const val ALBUM_PHOTOS = "album_photos/{$ALBUM}"
 
         //User
         private const val USER_GRAPH_ROUTE = "user_graph"

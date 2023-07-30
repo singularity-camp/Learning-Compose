@@ -10,14 +10,14 @@ import androidx.compose.ui.unit.dp
 import kz.singularity.learningcompose.models.PostUI
 import kz.singularity.learningcompose.ui.main.MainViewModel
 import kz.singularity.learningcompose.ui.views.Post
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PostsPage(
     paddingValues: PaddingValues,
     onPostClick: (PostUI) -> Unit
 ) {
-    val viewModel: MainViewModel = get()
+    val viewModel: MainViewModel = getViewModel()
 
     val posts = viewModel.posts
     LazyColumn(

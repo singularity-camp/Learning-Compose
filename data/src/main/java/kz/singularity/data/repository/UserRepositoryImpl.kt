@@ -15,7 +15,7 @@ internal class UserRepositoryImpl(
     }
 
     override suspend fun getUserById(userId: Long): User {
-        val userResponse = placeholderService.getUserbyId(userId)
+        val userResponse = placeholderService.getUserById(userId)
         return userMapper.fromRemoteToDomain(userResponse)
     }
 }

@@ -28,10 +28,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import kz.singularity.learningcompose.models.AlbumUI
 import kz.singularity.learningcompose.models.PostUI
 import kz.singularity.learningcompose.navigation.BottomNavItems
 import kz.singularity.learningcompose.navigation.Screen
+import kz.singularity.learningcompose.ui.albums.AlbumsPage
 import kz.singularity.learningcompose.ui.comments.CommentsPage
+import kz.singularity.learningcompose.ui.photos.PhotosPage
 import kz.singularity.learningcompose.ui.post_detail.PostDetailPage
 import kz.singularity.learningcompose.ui.posts.PostsPage
 import kz.singularity.learningcompose.ui.theme.CustomTheme
@@ -109,10 +112,25 @@ fun NavGraphBuilder.appendAllScreens(
         route = Screen.Album.route
     ) {
         composable(Screen.Albums.route) {
-
+            AlbumsPage(
+                paddingValues = paddingValues,
+                onClick = {album->
+                    navController.navigate(Screen.AlbumPhotos.getRouteArgs(album))
+                }
+            )
         }
 
-        composable(Screen.AlbumPhotos.route) {
+        composable(
+           route = Screen.AlbumPhotos.route,
+            arguments = listOf(navArgument(Screen.ALBUM){type = AlbumUI.NavigationType})
+        ) {
+            val album = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.arguments?.getParcelable(Screen.ALBUM, AlbumUI::class.java)
+            } else {
+                it.arguments?.getParcelable(Screen.POST)
+            } ?: throw RuntimeException("Args is null")
+
+            PhotosPage(album = album, paddingValues = paddingValues)
 
         }
 

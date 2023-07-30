@@ -18,13 +18,13 @@ import kz.singularity.learningcompose.R
 import kz.singularity.learningcompose.extensions.sendMail
 import kz.singularity.learningcompose.ui.theme.CustomTheme
 import kz.singularity.learningcompose.ui.views.PostComment
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun CommentsPage(
     paddingValues: PaddingValues
 ) {
-    val viewModel: CommentsViewModel = get()
+    val viewModel: CommentsViewModel = getViewModel()
     val comments = viewModel.screenState.value
 
     val context = LocalContext.current
