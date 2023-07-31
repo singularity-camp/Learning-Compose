@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +25,7 @@ import kz.singularity.learningcompose.R
 import kz.singularity.learningcompose.extensions.sendMail
 import kz.singularity.learningcompose.models.PostUI
 import kz.singularity.learningcompose.ui.theme.CustomTheme
-import kz.singularity.learningcompose.ui.views.PostComment
+import kz.singularity.learningcompose.ui.views.PostCommentCard
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -87,7 +86,7 @@ fun PostDetailPage(
 
         items(postDetailState.comments.size) {
             val comment = postDetailState.comments[it]
-            PostComment(
+            PostCommentCard(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 commentTitle = comment.name,
                 userEmail = comment.email,

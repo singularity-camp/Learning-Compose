@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kz.singularity.learningcompose.models.AlbumUI
-import kz.singularity.learningcompose.ui.views.Album
+import kz.singularity.learningcompose.ui.views.AlbumCard
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -29,7 +29,7 @@ fun AlbumsPage(
     ){
         items(albums.size){
             val album = albums[it]
-            Album(
+            AlbumCard(
                 imgUrl = album.imgUrl,
                 albumName = album.name,
                 userName = album.userName,

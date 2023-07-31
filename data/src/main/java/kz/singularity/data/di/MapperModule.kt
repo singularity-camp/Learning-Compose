@@ -7,6 +7,7 @@ import kz.singularity.data.network.mapper.CompanyMapper
 import kz.singularity.data.network.mapper.GeoMapper
 import kz.singularity.data.network.mapper.PhotoMapper
 import kz.singularity.data.network.mapper.PostsMapper
+import kz.singularity.data.network.mapper.TodoMapper
 import kz.singularity.data.network.mapper.UserMapper
 import org.koin.dsl.module
 
@@ -19,4 +20,5 @@ val mapperModule = module {
     factory { CommentMapper() }
     factory { PhotoMapper() }
     factory { AlbumMapper() }
+    factory { TodoMapper() }
 }

@@ -2,43 +2,49 @@ package kz.singularity.learningcompose.ui.views
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import kz.singularity.learningcompose.R
 import kz.singularity.learningcompose.ui.theme.CustomTheme
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun Post(
-    title: String,
-    body: String,
+fun PostCommentCard(
+    modifier: Modifier = Modifier,
+    commentTitle: String,
+    userEmail: String,
+    commentBody: String,
     onClick: () -> Unit,
 ) {
     Card(
+        modifier = modifier,
         backgroundColor = CustomTheme.colors.ui01,
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
         elevation = 4.dp
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
             Text(
-                text = title,
+                text = commentTitle,
                 style = CustomTheme.typography.h2,
                 color = CustomTheme.colors.text01
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+            InfoSnippet(
+                label = R.string.email,
+                value = userEmail,
+                onClick = onClick
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = body,
+                text = commentBody,
                 style = CustomTheme.typography.body1,
-                color = CustomTheme.colors.text02,
-                maxLines = 5,
-                overflow = TextOverflow.Ellipsis
+                color = CustomTheme.colors.text01
             )
         }
     }
 }
+

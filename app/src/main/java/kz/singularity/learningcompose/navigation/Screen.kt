@@ -28,10 +28,10 @@ sealed class Screen(
     //Album
     object Album : Screen(ALBUM_GRAPH_ROUTE)
     object Albums : Screen(ALBUMS)
-    object AlbumPhotos : Screen(ALBUM_PHOTOS){
+    object AlbumPhotos : Screen(ALBUM_PHOTOS) {
         private const val ROUTE_FOR_ARGS = "album_photos"
 
-        fun getRouteArgs(album:AlbumUI):String{
+        fun getRouteArgs(album: AlbumUI): String {
             val albumJson = Gson().toJson(album)
             return "$ROUTE_FOR_ARGS/$albumJson"
         }
@@ -41,13 +41,25 @@ sealed class Screen(
     //User
     object User : Screen(USER_GRAPH_ROUTE)
     object Users : Screen(USERS)
-    object UserProfile : Screen(USER_PROFILE)
+    object UserProfile : Screen(USER_PROFILE) {
+        private const val ROUTE_FOR_ARGS = "user_profile"
+
+        fun getRouteArgs(userId: Long): String {
+            return "$ROUTE_FOR_ARGS/$userId"
+        }
+    }
 
 
     //Profile
     object Profile : Screen(PROFILE_GRAPH_ROUTE)
     object CurrentProfile : Screen(CURRENT_PROFILE)
-    object ToDos : Screen(TO_DOS)
+    object ToDos : Screen(TO_DOS){
+        private const val ROUTE_FOR_ARGS = "to_dos"
+
+        fun getRouteArgs(userId: Long): String {
+            return "$ROUTE_FOR_ARGS/$userId"
+        }
+    }
 
 
     internal fun String.encode() = Uri.encode(this)
@@ -56,6 +68,7 @@ sealed class Screen(
     companion object {
         const val POST = "post"
         const val ALBUM = "album"
+        const val USER_ID = "user_id"
 
         //Post
         private const val POST_GRAPH_ROUTE = "post_graph"
@@ -71,11 +84,11 @@ sealed class Screen(
         //User
         private const val USER_GRAPH_ROUTE = "user_graph"
         private const val USERS = "users"
-        private const val USER_PROFILE = "user_profile"
+        private const val USER_PROFILE = "user_profile/{$USER_ID}"
 
         //Profile
         private const val PROFILE_GRAPH_ROUTE = "profile_graph"
         private const val CURRENT_PROFILE = "current_profile"
-        private const val TO_DOS = "to_dos"
+        private const val TO_DOS = "to_dos/{$USER_ID}"
     }
 }

@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -22,6 +24,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -37,7 +40,11 @@ import kz.singularity.learningcompose.ui.comments.CommentsPage
 import kz.singularity.learningcompose.ui.photos.PhotosPage
 import kz.singularity.learningcompose.ui.post_detail.PostDetailPage
 import kz.singularity.learningcompose.ui.posts.PostsPage
+import kz.singularity.learningcompose.ui.profile.ProfilePage
 import kz.singularity.learningcompose.ui.theme.CustomTheme
+import kz.singularity.learningcompose.ui.todo.TodosPage
+import kz.singularity.learningcompose.ui.user_profile.UserProfilePage
+import kz.singularity.learningcompose.ui.users.UsersPage
 
 class MainActivity : AppCompatActivity() {
 
@@ -114,15 +121,15 @@ fun NavGraphBuilder.appendAllScreens(
         composable(Screen.Albums.route) {
             AlbumsPage(
                 paddingValues = paddingValues,
-                onClick = {album->
+                onClick = { album ->
                     navController.navigate(Screen.AlbumPhotos.getRouteArgs(album))
                 }
             )
         }
 
         composable(
-           route = Screen.AlbumPhotos.route,
-            arguments = listOf(navArgument(Screen.ALBUM){type = AlbumUI.NavigationType})
+            route = Screen.AlbumPhotos.route,
+            arguments = listOf(navArgument(Screen.ALBUM) { type = AlbumUI.NavigationType })
         ) {
             val album = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 it.arguments?.getParcelable(Screen.ALBUM, AlbumUI::class.java)
@@ -134,6 +141,61 @@ fun NavGraphBuilder.appendAllScreens(
 
         }
 
+    }
+
+    navigation(
+        startDestination = Screen.Users.route,
+        route = Screen.User.route
+    ) {
+        composable(Screen.Users.route) {
+            UsersPage(
+                paddingValues = paddingValues,
+                onClick = { userId ->
+                    navController.navigate(Screen.UserProfile.getRouteArgs(userId))
+                }
+            )
+        }
+
+        composable(
+            route = Screen.UserProfile.route,
+            arguments = listOf(navArgument(Screen.USER_ID) { type = NavType.LongType })
+        ) {
+            val userId = it.arguments?.getLong(Screen.USER_ID)
+                ?: throw RuntimeException("user id is null")
+            UserProfilePage(
+                userId = userId,
+                paddingValues = paddingValues,
+                onMapClick = {}
+            )
+
+        }
+    }
+
+    navigation(
+        startDestination = Screen.CurrentProfile.route,
+        route = Screen.Profile.route
+    ) {
+        composable(Screen.CurrentProfile.route) {
+            ProfilePage(
+                paddingValues = paddingValues,
+                onMapClick = { },
+                onTodoClick = { userId ->
+                    navController.navigate(Screen.ToDos.getRouteArgs(userId))
+                }
+            )
+        }
+
+        composable(
+            route = Screen.ToDos.route,
+            arguments = listOf(navArgument(Screen.USER_ID) { type = NavType.LongType })
+        ) {
+            val userId = it.arguments?.getLong(Screen.USER_ID)
+                ?: throw RuntimeException("user id is null")
+            TodosPage(
+                userId = userId,
+                paddingValues = paddingValues,
+            )
+        }
     }
 
 }

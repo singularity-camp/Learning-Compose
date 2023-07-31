@@ -4,6 +4,7 @@ import kz.singularity.data.network.response.AlbumResponse
 import kz.singularity.data.network.response.CommentResponse
 import kz.singularity.data.network.response.PhotoResponse
 import kz.singularity.data.network.response.PostResponse
+import kz.singularity.data.network.response.TodoResponse
 import kz.singularity.data.network.response.UserResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -40,6 +41,12 @@ interface PlaceholderService {
     suspend fun getPhotosByAlbumId(
         @Path("id") albumId: Long
     ): List<PhotoResponse>
+
+    @GET("users/{id}/todos")
+    suspend fun getTodos(
+        @Path("id") id: Long
+    ): List<TodoResponse>
+
 
 
 }

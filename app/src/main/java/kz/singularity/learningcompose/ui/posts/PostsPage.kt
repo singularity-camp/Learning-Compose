@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kz.singularity.learningcompose.models.PostUI
 import kz.singularity.learningcompose.ui.main.MainViewModel
-import kz.singularity.learningcompose.ui.views.Post
+import kz.singularity.learningcompose.ui.views.PostCard
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -27,7 +27,7 @@ fun PostsPage(
     ) {
         items(posts.size) {
             val post = posts[it]
-            Post(
+            PostCard(
                 title = post.title,
                 body = post.body,
                 onClick = { onPostClick(post) }

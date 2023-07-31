@@ -10,11 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -27,7 +25,6 @@ import kz.singularity.domain.models.Photo
 import kz.singularity.learningcompose.R
 import kz.singularity.learningcompose.models.AlbumUI
 import kz.singularity.learningcompose.ui.theme.CustomTheme
-import kz.singularity.learningcompose.ui.views.Photo
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -107,7 +104,7 @@ private fun PhotosContent(
 
             ) {
                 val photo = photos[it]
-                kz.singularity.learningcompose.ui.views.Photo(
+                kz.singularity.learningcompose.ui.views.PhotoCard(
                     modifier = Modifier.height(IntrinsicSize.Max),
                     imgUrl = photo.url,
                     name = photo.title
