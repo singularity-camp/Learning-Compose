@@ -1,6 +1,9 @@
 package kz.singularity.learningcompose.ui
 
 import android.app.Application
+import kz.singularity.data.di.mapperModule
+import kz.singularity.data.di.networkModule
+import kz.singularity.data.di.repositoryModule
 import kz.singularity.data.di.roomDatabaseModule
 import kz.singularity.learningcompose.di.*
 import org.koin.android.ext.koin.androidContext
