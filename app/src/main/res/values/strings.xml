@@ -1,4 +1,26 @@
 <resources>
     <string name="app_name">Learning Compose</string>
     <string name="email">Email</string>
+    <string name="posts">Posts</string>
+    <string name="albums">Albums</string>
+    <string name="users">Users</string>
+    <string name="Profile">Profile</string>
+    <string name="Comments">Comments</string>
+    <string name="by">By</string>
+    <string name="show_all">Show All</string>
+    <string name="username">Username</string>
+    <string name="full_name">Full Name</string>
+    <string name="company_name">Company Name</string>
+    <string name="company">Company</string>
+    <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="website">Website</string>
+    <string name="business_services">Business Services</string>
+    <string name="street">Street</string>
+    <string name="suite">Suite</string>
+    <string name="city">City</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="show_on_map">Show On Map</string>
+    <string name="my_todos">My ToDos</string>
+    <string name="your_todos">Your ToDos</string>
 </resources>

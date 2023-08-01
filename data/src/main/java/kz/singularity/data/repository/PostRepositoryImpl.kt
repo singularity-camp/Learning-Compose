@@ -11,7 +11,7 @@ internal class PostRepositoryImpl(
     private val postDao: PostDao,
 ) : kz.singularity.domain.repository.PostRepository {
 
-    val postsCache = mutableListOf<Post>()
+    private val postsCache = mutableListOf<Post>()
 
     override suspend fun getPosts(): List<Post> {
 
@@ -35,7 +35,7 @@ internal class PostRepositoryImpl(
         return posts
     }
 
-    override suspend fun getPostDetails(postId: Long): kz.singularity.domain.models.Post {
+    override suspend fun getPostDetails(postId: Long): Post {
         val postResponse = placeholderService.getPostDetails(postId)
         return postsMapper.fromRemoteToDomain(postResponse)
     }

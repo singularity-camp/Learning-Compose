@@ -5,22 +5,25 @@ import kz.singularity.data.network.response.PostResponse
 import kz.singularity.domain.models.Post
 
 internal class PostsMapper {
-    fun fromRemoteToDomain(postResponse: PostResponse): kz.singularity.domain.models.Post {
-        return kz.singularity.domain.models.Post(
+    fun fromRemoteToDomain(postResponse: PostResponse): Post {
+        return Post(
             body = postResponse.body,
             id = postResponse.id,
             title = postResponse.title,
             userId = postResponse.userId
         )
     }
-    fun fromEntityToDomain(postEntity: PostEntity): kz.singularity.domain.models.Post {
-        return kz.singularity.domain.models.Post(
+
+    fun fromEntityToDomain(postEntity: PostEntity): Post {
+        return Post(
             body = postEntity.body,
             id = postEntity.id,
             title = postEntity.title,
             userId = postEntity.userId
         )
     }
+
+
     fun fromDomainToEntity(post: Post): PostEntity {
         return PostEntity(
             body = post.body,
