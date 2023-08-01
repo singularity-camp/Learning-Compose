@@ -25,6 +25,7 @@ import kz.singularity.domain.models.Photo
 import kz.singularity.learningcompose.R
 import kz.singularity.learningcompose.models.AlbumUI
 import kz.singularity.learningcompose.ui.theme.CustomTheme
+import kz.singularity.learningcompose.ui.views.PhotoCard
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -104,7 +105,7 @@ private fun PhotosContent(
 
             ) {
                 val photo = photos[it]
-                kz.singularity.learningcompose.ui.views.PhotoCard(
+                PhotoCard(
                     modifier = Modifier.height(IntrinsicSize.Max),
                     imgUrl = photo.url,
                     name = photo.title
