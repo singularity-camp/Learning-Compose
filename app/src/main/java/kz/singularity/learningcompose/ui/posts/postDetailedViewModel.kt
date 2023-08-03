@@ -8,21 +8,16 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import kz.singularity.domain.models.Album
 import kz.singularity.domain.models.Comment
 import kz.singularity.domain.models.Post
 import kz.singularity.domain.models.User
-import kz.singularity.domain.use_cases.GetAlbumsUseCase
 import kz.singularity.domain.use_cases.GetCommentsUseCase
 import kz.singularity.domain.use_cases.GetUsersUseCase
 
-class MainViewModel(
+class postDetailedViewModel(
     private val getPostsUseCase: kz.singularity.domain.use_cases.GetPostsUseCase,
-    private val getPostDetailsUseCase: kz.singularity.domain.use_cases.GetPostDetailsUseCase,
     private val getCommentsUseCase: GetCommentsUseCase,
-    private val getUsersUseCase: GetUsersUseCase,
-    private val getAlbumsUseCase: GetAlbumsUseCase
-
+    private val getUsersUseCase: GetUsersUseCase
 ) : ViewModel() {
 
     private val _posts = mutableStateListOf<kz.singularity.domain.models.Post>()
@@ -34,21 +29,11 @@ class MainViewModel(
     private val _users = mutableStateListOf<User>()
     val user: SnapshotStateList<User> = _users
 
-    private val _albums = mutableStateListOf<Album>()
-    val album: SnapshotStateList<Album> = _albums
-
     init {
         viewModelScope.launch {
             _posts.addAll(getPostsUseCase())
             _comments.addAll(getCommentsUseCase())
             _users.addAll(getUsersUseCase())
-            _albums.addAll(getAlbumsUseCase())
-        }
-    }
-
-    fun onPostClick(postId: Long) {
-        viewModelScope.launch {
-            Log.e("TAG", getPostDetailsUseCase(postId).toString())
         }
     }
 
@@ -63,16 +48,14 @@ class MainViewModel(
         }
     }
 
-    fun getUserById(userId: Long): User? {
-        return user.find { it.id.toLong() == userId }
-    }
-
     fun getPostByPageId(postId: Long): Post? {
         return posts.find { it.id == postId }
     }
 
     private val _commentsFromPost = mutableStateListOf<Comment>()
     val commentFromPost: SnapshotStateList<Comment> = _commentsFromPost
+
+
     fun getCommentFromPost(postId: Long) {
         viewModelScope.launch {
             _commentsFromPost.addAll(getCommentsUseCase(postId = postId))

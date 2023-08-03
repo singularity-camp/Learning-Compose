@@ -17,7 +17,6 @@ fun PostsPage(navController: NavController, viewModel: MainViewModel = get()) {
     val posts = viewModel.posts
     val usernamesMapState = rememberUpdatedState(viewModel.usersNamesMap)
 
-    // Fetch usernames for each post's userId
     LaunchedEffect(posts) {
         posts.forEach { post ->
             viewModel.getUsersNames(post.userId)
@@ -43,9 +42,6 @@ fun PostsPage(navController: NavController, viewModel: MainViewModel = get()) {
                     )
                 }
             )
-            /* username?.let {
-                 Text(it)
-             }*/
         }
     }
 }
@@ -59,8 +55,3 @@ fun Post(post: kz.singularity.domain.models.Post, onClick: () -> Unit) {
     )
 }
 
-/*
-@Composable
-fun navigateToPostDetails(navController: NavController, postId: Long, userId: Long) {
-    navController.navigate("${BottomNavItems.PostDetails.route}/$postId/$userId")
-}*/

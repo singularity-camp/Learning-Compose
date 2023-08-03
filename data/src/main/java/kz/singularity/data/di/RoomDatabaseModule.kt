@@ -24,6 +24,11 @@ val roomDatabaseModule = module {
         val appRoomDatabase: AppRoomDatabase = get()
         appRoomDatabase.userDao()
     }
+
+    factory {
+        val appRoomDatabase: AppRoomDatabase = get()
+        appRoomDatabase.albumDao()
+    }
 }
 
 private const val ROOM_DB_NAME = "AppRoomDatabase"

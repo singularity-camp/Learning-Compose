@@ -25,6 +25,7 @@ import kz.singularity.domain.models.Comment
 import kz.singularity.domain.models.Post
 import kz.singularity.learningcompose.navigation.Destinations
 import kz.singularity.learningcompose.ui.main.MainViewModel
+import kz.singularity.learningcompose.ui.main.postDetailedViewModel
 import kz.singularity.learningcompose.ui.theme.CustomTheme
 import kz.singularity.learningcompose.ui.views.Email
 import kz.singularity.learningcompose.ui.views.PostComment
@@ -33,7 +34,7 @@ import org.koin.androidx.compose.get
 
 @Composable
 fun PostDetailsPage(
-    viewModel: MainViewModel = get(),
+    viewModel: postDetailedViewModel = get(),
     postId: Long,
     username: String,
     navController: NavController

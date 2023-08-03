@@ -17,8 +17,8 @@ class UserMapper(
             phone = userResponse.phone,
             username = userResponse.username,
             website = userResponse.website,
-            /*address = addressMapper.fromRemoteToDomain(userResponse.address),
-            company = companyMapper.fromRemoteToDomain(userResponse.company)*/
+            address = addressMapper.fromRemoteToDomain(userResponse.address),
+            company = companyMapper.fromRemoteToDomain(userResponse.company)
         )
     }
 

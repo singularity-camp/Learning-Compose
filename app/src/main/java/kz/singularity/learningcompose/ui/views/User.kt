@@ -20,10 +20,11 @@ fun User(
     username: String,
     userEmail: String,
     name: String,
+    onClick: () -> Unit
 ) {
     Card(
         backgroundColor = CustomTheme.colors.ui01,
-        onClick = {},
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),

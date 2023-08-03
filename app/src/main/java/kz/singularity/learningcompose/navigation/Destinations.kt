@@ -27,4 +27,35 @@ object Destinations {
             return "CommentsFromPostPage/$postId"
         }
     }
+
+    object UserProfile {
+        const val route = "UserProfile/{userId}"
+        const val userIdArg = "userId"
+
+        fun createRoute(userId: Long): String {
+            return "UserProfile/$userId"
+        }
+    }
+
+    object UserTodos {
+        const val route = "UserTodos/{userId}"
+        const val userIdArg = "userId"
+
+        fun createRoute(userId: Long): String {
+            return "UserTodos/$userId"
+        }
+    }
+
+    object PhotosFromAlbum{
+        const val route = "PhotosFromAlbum/{albumId}/{albumName}/{username}"
+        const val almubIdArg = "albumId"
+        const val albumNameArg = "albumName"
+        const val usernameArg = "username"
+
+        fun createRoute(albumId:Long, albumName: String, username: String) : String{
+            return "PhotosFromAlbum/$albumId/$albumName/$username"
+        }
+    }
+
+
 }

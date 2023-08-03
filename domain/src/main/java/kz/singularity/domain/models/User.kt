@@ -1,7 +1,7 @@
 package kz.singularity.domain.models
 data class User(
-    /*val address: Address,
-    val company: Company,*/
+    val address: Address,
+    val company: Company,
     val email: String,
     val id: Int,
     val name: String,
