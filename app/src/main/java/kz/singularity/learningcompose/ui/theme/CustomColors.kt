@@ -12,10 +12,21 @@ import androidx.compose.ui.graphics.Color
 //    }
 //}
 
+val main_01 = Color(0xFFE61771)
+val main_02 = Color(0xFF394F62)
+val text_01 = Color(0xFF000000)
+val text_02 = Color(0xFF979797)
+val ui_01 = Color(0xFFFFFFFF)
+val ui_02 = Color(0xFFF7F7F7)
+val ui_03 = Color(0xFFEDEDEF)
+val ui_04 = Color(0xFFE3E2E7)
+val ui_05 = Color(0xFFC0BDCB)
+val links = Color(0xFF0075CD)
+
 @Immutable
 data class CustomColors(
-    val brand01: Color,
-    val brand02: Color,
+    val main01: Color,
+    val main02: Color,
     val ui01: Color,
     val ui02: Color,
     val ui03: Color,
@@ -23,30 +34,20 @@ data class CustomColors(
     val ui05: Color,
     val text01: Color,
     val text02: Color,
-    val links: Color,
-    val support01: Color,
-    val support02: Color,
-    val support03: Color,
-    val support04: Color,
-    val support05: Color,
+    val links: Color
 )
 
 val LocalCustomColors = staticCompositionLocalOf {
     CustomColors(
-        brand01 = Color.Unspecified,
-        brand02 = Color.Unspecified,
-        ui01 = Color.Unspecified,
-        ui02 = Color.Unspecified,
-        ui03 = Color.Unspecified,
-        ui04 = Color.Unspecified,
-        ui05 = Color.Unspecified,
-        text01 = Color.Unspecified,
-        text02 = Color.Unspecified,
-        links = Color.Unspecified,
-        support01 = Color.Unspecified,
-        support02 = Color.Unspecified,
-        support03 = Color.Unspecified,
-        support04 = Color.Unspecified,
-        support05 = Color.Unspecified,
+        ui01 = ui_01,
+        ui02 = ui_02,
+        ui03 = ui_03,
+        ui04 = ui_04,
+        ui05 = ui_05,
+        text01 = text_01,
+        text02 = text_02,
+        links = links,
+        main01 = main_01,
+        main02 = main_02
     )
 }

@@ -5,6 +5,7 @@ import kz.singularity.data.network.response.PostResponse
 import kz.singularity.domain.models.Post
 
 internal class PostsMapper {
+
     fun fromRemoteToDomain(postResponse: PostResponse): kz.singularity.domain.models.Post {
         return kz.singularity.domain.models.Post(
             body = postResponse.body,
@@ -29,4 +30,5 @@ internal class PostsMapper {
             userId = post.userId
         )
     }
+
 }

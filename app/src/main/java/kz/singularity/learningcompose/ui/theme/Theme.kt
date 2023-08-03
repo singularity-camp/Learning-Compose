@@ -16,7 +16,8 @@ fun CustomTheme(isDark: Boolean = isSystemInDarkTheme(), content: @Composable ()
 
     MaterialTheme(
         colors = colors,
-        content = content
+        content = content,
+        typography = Typography
     )
 }
 

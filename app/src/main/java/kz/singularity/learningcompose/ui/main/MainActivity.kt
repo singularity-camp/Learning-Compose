@@ -1,13 +1,13 @@
 package kz.singularity.learningcompose.ui.main
 
+import CurrentProfilePage
+import UserProfilePage
 import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,13 +18,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import kz.singularity.learningcompose.R
+import kz.singularity.learningcompose.navigation.Destinations
+import kz.singularity.learningcompose.ui.albums.AlbumsPage
+import kz.singularity.learningcompose.ui.albums.AlbumsPhotosPage
+import kz.singularity.learningcompose.ui.posts.CommentsFromPostPage
+
+import kz.singularity.learningcompose.ui.posts.PostDetailsPage
 import kz.singularity.learningcompose.ui.posts.PostsPage
+import kz.singularity.learningcompose.ui.theme.CustomTheme
+import kz.singularity.learningcompose.ui.user_profile.YourTodos
+import kz.singularity.learningcompose.ui.users.UserPageTest
+import org.koin.androidx.compose.get
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,17 +51,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
         setContent {
             val navController = rememberNavController()
 
-            MaterialTheme {
+            CustomTheme {
                 Column(modifier = Modifier.fillMaxSize()) {
                     NavHost(
                         modifier = Modifier.weight(1f),
                         navController = navController,
                         startDestination = BottomNavItems.Posts.route
                     ) {
-                        appendAllScreens()
+                        appendAllScreens(navController)
+                        //composable("postDetailed"){ postDetailed(post = )}
                     }
 
                     val currentBackStackEntry by navController.currentBackStackEntryAsState()
@@ -56,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                         bottomNavItems.forEach {
                             val isSelected = currentBackStackEntry?.destination?.route == it.route
                             val tint = if (isSelected) {
-                                MaterialTheme.colors.secondary
+                                CustomTheme.colors.main01
                             } else {
                                 Color.Unspecified
                             }
@@ -80,14 +96,90 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-fun NavGraphBuilder.appendAllScreens() {
-    composable(BottomNavItems.Posts.route) {
-        PostsPage()
+fun NavGraphBuilder.appendAllScreens(navController: NavController) {
+    composable(Destinations.Posts) {
+       PostsPage(navController)
     }
-    composable(BottomNavItems.Albums.route) {
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black))
+
+    composable(Destinations.Users) {
+        UserPageTest(navController)
+    }
+
+    composable(Destinations.Albums){
+        AlbumsPage(navController)
+    }
+    
+    composable(Destinations.Profile){
+        CurrentProfilePage(userId = 2, navController)
+       // YourTodos(userId = 2)
+    }
+
+    composable(
+        route = Destinations.PhotosFromAlbum.route,
+        arguments = listOf(
+            navArgument( Destinations.PhotosFromAlbum.almubIdArg) {type = NavType.LongType},
+            navArgument(Destinations.PhotosFromAlbum.albumNameArg) {type = NavType.StringType},
+            navArgument(Destinations.PhotosFromAlbum.usernameArg) {type = NavType.StringType}
+            )
+    ){
+        val albumId = it.arguments?.getLong(Destinations.PhotosFromAlbum.almubIdArg)
+        val albumName = it.arguments?.getString(Destinations.PhotosFromAlbum.albumNameArg)
+        val username = it.arguments?.getString(Destinations.PhotosFromAlbum.usernameArg)
+        if(albumId !=null && albumName !=null && username !=null  ){
+            AlbumsPhotosPage(albumId = albumId, albumName = albumName, usernameOfAlbum = username)
+        }
+    }
+    composable(
+        route = Destinations.UserTodos.route,
+        arguments = listOf(
+            navArgument(Destinations.UserTodos.userIdArg) {type = NavType.LongType}
+        )
+    )
+    { backStackEntry ->
+        val userId = backStackEntry.arguments?.getLong(Destinations.UserTodos.userIdArg)
+        if (userId != null) {
+            YourTodos(userId = userId)
+        }
+    }
+    composable(
+        route = Destinations.PostDetails.route,
+        arguments = listOf(
+            navArgument(Destinations.PostDetails.postIdArg) { type = NavType.LongType },
+            navArgument(Destinations.PostDetails.usernameArg) { type = NavType.StringType }
+        )
+    ) { backStackEntry ->
+        val postId = backStackEntry.arguments?.getLong(Destinations.PostDetails.postIdArg)
+        val username = backStackEntry.arguments?.getString(Destinations.PostDetails.usernameArg)
+        if (postId != null && username != null) {
+            PostDetailsPage(postId = postId, username = username, navController = navController)
+        }
+    }
+
+    composable(
+        route = Destinations.UserProfile.route,
+        arguments = listOf(
+            navArgument(Destinations.UserProfile.userIdArg) {type = NavType.LongType}
+        )
+    ){backStackEntry ->
+        val userId = backStackEntry.arguments?.getLong(Destinations.UserProfile.userIdArg)
+        if(userId!=null){
+            UserProfilePage(userId)
+        }
+    }
+
+    composable(
+        route = Destinations.CommentsFromPostPage.route,
+        arguments = listOf(
+            navArgument(Destinations.CommentsFromPostPage.postIdArg) { type = NavType.LongType }
+        )
+    ) { backStackEntry ->
+        val postId = backStackEntry.arguments?.getLong(Destinations.CommentsFromPostPage.postIdArg)
+        if (postId != null) {
+            val viewModel = get<MainViewModel>()
+            viewModel.getCommentFromPost(postId)
+            val comments = viewModel.commentFromPost
+            CommentsFromPostPage(comments = comments)
+        }
     }
 }
 

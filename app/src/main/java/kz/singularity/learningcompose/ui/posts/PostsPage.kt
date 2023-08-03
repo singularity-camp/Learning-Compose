@@ -4,24 +4,44 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import kz.singularity.learningcompose.navigation.Destinations
 import kz.singularity.learningcompose.ui.main.MainViewModel
 import org.koin.androidx.compose.get
 
 @Composable
-fun PostsPage(viewModel: MainViewModel = get()) {
+fun PostsPage(navController: NavController, viewModel: MainViewModel = get()) {
     val posts = viewModel.posts
+    val usernamesMapState = rememberUpdatedState(viewModel.usersNamesMap)
+
+    LaunchedEffect(posts) {
+        posts.forEach { post ->
+            viewModel.getUsersNames(post.userId)
+        }
+    }
+
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(posts.size) {
-            val post = posts[it]
+        items(posts.size) { index ->
+            val post = posts[index]
+            val username = usernamesMapState.value[post.userId]
+
             Post(
                 post = post,
                 onClick = {
-                    viewModel.onPostClick(post.id)
-                })
+                    navController.navigate(
+                        Destinations.PostDetails.createRoute(
+                            post.id,
+                            username
+                        )
+                    )
+                }
+            )
         }
     }
 }
@@ -34,3 +54,4 @@ fun Post(post: kz.singularity.domain.models.Post, onClick: () -> Unit) {
         onClick = onClick
     )
 }
+
