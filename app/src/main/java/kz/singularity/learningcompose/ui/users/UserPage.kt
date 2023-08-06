@@ -25,8 +25,8 @@ fun UserPage(
     val isLoading = viewModel.isLoading
 
     if (isLoading.value) {
-        LazyColumn(){
-            items(8){
+        LazyColumn() {
+            items(8) {
                 LoadingShimmerEffect(shimmerType = ShimmerType.USERS)
             }
         }
@@ -41,16 +41,15 @@ fun UserPage(
                 Spacer(modifier = Modifier.size(16.dp))
             }
 
-            items(users.size + 1) {
+            items(users.size) {
                 val user = users[it]
-                if (isLoading.value) {
-                    LoadingShimmerEffect(shimmerType = ShimmerType.USERS)
-                } else {
-                    Users(user, onClick = {
+                Users(
+                    user = user,
+                    onClick = {
                         val route = Destinations.UserProfile.createRoute(user.id.toLong())
                         navController.navigate(route)
-                    })
-                }
+                    }
+                )
             }
         }
     }
