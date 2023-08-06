@@ -4,24 +4,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kz.singularity.learningcompose.navigation.Destinations
-import kz.singularity.learningcompose.ui.main.MainViewModel
+import kz.singularity.learningcompose.ui.animation.LoadingShimmerEffect
+import kz.singularity.learningcompose.ui.animation.ShimmerType
 import org.koin.androidx.compose.get
 
 @Composable
-fun PostsPage(navController: NavController, viewModel: MainViewModel = get()) {
+fun PostsPage(navController: NavController, viewModel: PostsPageViewModel = get()) {
     val posts = viewModel.posts
-    val usernamesMapState = rememberUpdatedState(viewModel.usersNamesMap)
-
-    LaunchedEffect(posts) {
-        posts.forEach { post ->
-            viewModel.getUsersNames(post.userId)
-        }
-    }
+    val usernamesMapState = viewModel.usersNamesMap
+    val isLoading = viewModel.isLoading
 
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
@@ -29,19 +23,23 @@ fun PostsPage(navController: NavController, viewModel: MainViewModel = get()) {
     ) {
         items(posts.size) { index ->
             val post = posts[index]
-            val username = usernamesMapState.value[post.userId]
+            val username = usernamesMapState[post.userId]
 
-            Post(
-                post = post,
-                onClick = {
-                    navController.navigate(
-                        Destinations.PostDetails.createRoute(
-                            post.id,
-                            username
+            if (isLoading.value) {
+                LoadingShimmerEffect(shimmerType = ShimmerType.POSTS)
+            } else {
+                Post(
+                    post = post,
+                    onClick = {
+                        navController.navigate(
+                            Destinations.PostDetails.createRoute(
+                                post.id,
+                                username
+                            )
                         )
-                    )
-                }
-            )
+                    }
+                )
+            }
         }
     }
 }

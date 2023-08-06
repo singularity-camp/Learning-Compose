@@ -1,27 +1,23 @@
 package kz.singularity.learningcompose.ui.albums
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import kz.singularity.learningcompose.navigation.Destinations
-import kz.singularity.learningcompose.ui.views.Album
+import kz.singularity.learningcompose.ui.animation.LoadingShimmerEffect
+import kz.singularity.learningcompose.ui.animation.ShimmerType
+import kz.singularity.learningcompose.ui.views.AlbumCard
 import org.koin.androidx.compose.get
 
 @Composable
 fun AlbumsPage(navController: NavController, viewModel: AlbumsViewModel = get()) {
     val albums = viewModel.album
+    val albumIdToUsernameMap = viewModel.albumIdToUsernameMap
+    val albumIdToFirstPhotoMap = viewModel.albumIdToFirstPhotoMap
+    val isLoading = viewModel.isLoading
 
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
@@ -29,25 +25,28 @@ fun AlbumsPage(navController: NavController, viewModel: AlbumsViewModel = get())
     ) {
         items(albums.size) { index ->
             val album = albums[index]
-            val username = viewModel.getUserById(album.userId)
-            viewModel.getPhotosFromAlbum(album.id)
-            val photo = viewModel.getPhotoFromList(albumId = album.id)
+            val username = albumIdToUsernameMap[album.id]
+            val photo = albumIdToFirstPhotoMap[album.id]
 
-            if (photo != null && username != null) {
-                Album(
-                    fontUrl = photo.url,
-                    albumName = album.title,
-                    usernameOfAlbum = username.username,
-                    onClick = {
-                        navController.navigate(
-                            Destinations.PhotosFromAlbum.createRoute(
-                                album.id,
-                                album.title,
-                                username.username
+            if (isLoading.value) {
+                LoadingShimmerEffect(shimmerType = ShimmerType.ALBUMS)
+            } else {
+                if (photo != null && username != null) {
+                    AlbumCard(
+                        fontUrl = photo.url,
+                        albumName = album.title,
+                        usernameOfAlbum = username,
+                        onClick = {
+                            navController.navigate(
+                                Destinations.PhotosFromAlbum.createRoute(
+                                    album.id,
+                                    album.title,
+                                    username
+                                )
                             )
-                        )
-                    }
-                )
+                        }
+                    )
+                }
             }
         }
     }

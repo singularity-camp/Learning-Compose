@@ -6,18 +6,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kz.singularity.domain.models.User
-import kz.singularity.learningcompose.ui.main.MainViewModel
 import kz.singularity.learningcompose.ui.theme.CustomTheme
-import kz.singularity.learningcompose.ui.users.UserPageViewModel
+import kz.singularity.learningcompose.ui.users.UserProfileViewModel
 import kz.singularity.learningcompose.ui.views.AddressCard
 import kz.singularity.learningcompose.ui.views.CompanyCard
-import kz.singularity.learningcompose.ui.views.UserInfo
+import kz.singularity.learningcompose.ui.views.UserInfoCard
 import org.koin.androidx.compose.get
 
 @Composable
-fun UserProfilePage(userId: Long, viewModel: UserPageViewModel = get()) {
-    val user = viewModel.getUserById(userId = userId)
+fun UserProfilePage(userId: Long, viewModel: UserProfileViewModel = get()) {
+    val user = viewModel.userIdToUserMap[userId]
     if (user != null) {
         LazyColumn(
             modifier = Modifier.padding(16.dp),
@@ -32,7 +30,7 @@ fun UserProfilePage(userId: Long, viewModel: UserPageViewModel = get()) {
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.size(24.dp))
-                UserInfo(
+                UserInfoCard(
                     userEmail = user.email,
                     fullName = user.name,
                     phoneNumber = user.phone,

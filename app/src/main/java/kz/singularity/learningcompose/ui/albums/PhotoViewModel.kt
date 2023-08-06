@@ -17,26 +17,35 @@ import kz.singularity.domain.use_cases.GetAlbumsUseCase
 import kz.singularity.domain.use_cases.GetPhotosUseCase
 import kz.singularity.domain.use_cases.GetUsersUseCase
 
-class AlbumsViewModel(
+class PhotoViewModel(
     private val getAlbumsUseCase: GetAlbumsUseCase,
     private val getPhotosUseCase: GetPhotosUseCase,
-    private val getUsersUseCase: GetUsersUseCase
 ):ViewModel() {
 
     private val _albums = mutableStateListOf<Album>()
-    val album: SnapshotStateList<Album> = _albums
-
     private val _photos = mutableStateListOf<Photo>()
-    private val _users = mutableStateListOf<User>()
 
-    private val _albumIdToUsernameMap = mutableStateMapOf<Long, String>()
-    val albumIdToUsernameMap: SnapshotStateMap<Long, String> = _albumIdToUsernameMap
-
-    private val _albumIdToFirstPhotoMap = mutableStateMapOf<Long, Photo?>()
-    val albumIdToFirstPhotoMap: SnapshotStateMap<Long, Photo?> = _albumIdToFirstPhotoMap
+    private val _albumIdToPhotosMap = mutableStateMapOf<Long, List<Photo>>()
+    val albumIdToPhotosMap: SnapshotStateMap<Long, List<Photo>> = _albumIdToPhotosMap
 
     private val _isLoading = mutableStateOf(true)
     val isLoading: State<Boolean> get() = _isLoading
+
+    enum class ViewMode {
+        List,
+        Grid
+    }
+
+    private val _viewMode = mutableStateOf(ViewMode.List)
+    val viewMode: ViewMode
+        get() = _viewMode.value
+
+    fun toggleViewMode() {
+        _viewMode.value = when (_viewMode.value) {
+            ViewMode.List -> ViewMode.Grid
+            ViewMode.Grid -> ViewMode.List
+        }
+    }
 
     init {
         fetchData()
@@ -47,16 +56,11 @@ class AlbumsViewModel(
             try {
                 _photos.addAll(getPhotosUseCase())
                 _albums.addAll(getAlbumsUseCase())
-                _users.addAll(getUsersUseCase())
 
                 _albums.forEach { album ->
-                    val user = _users.find { it.id.toLong() == album.userId }
-                    if (user != null) {
-                        _albumIdToUsernameMap[album.id] = user.username
-                    }
-
                     val photosForAlbum = _photos.filter { it.albumId == album.id }
-                    _albumIdToFirstPhotoMap[album.id] = photosForAlbum.firstOrNull()
+                    _albumIdToPhotosMap[album.id] = photosForAlbum
+
                 }
 
                 _isLoading.value = false

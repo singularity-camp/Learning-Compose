@@ -2,7 +2,6 @@ package kz.singularity.learningcompose.ui.views
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
@@ -17,20 +16,17 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import kz.singularity.learningcompose.R
 import kz.singularity.learningcompose.ui.theme.CustomTheme
-import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PostComment(
+fun CommentCard(
     commentTitle: String,
     userEmail: String,
     commentBody: String,

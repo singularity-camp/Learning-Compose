@@ -12,6 +12,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kz.singularity.learningcompose.ui.theme.CustomTheme
 
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Post(
@@ -32,7 +33,7 @@ fun Post(
             Text(
                 text = title,
                 style = MaterialTheme.typography.h2,
-                color = CustomTheme.colors.text01
+                color = CustomTheme.colors.text01,
             )
             Spacer(modifier = Modifier.size(16.dp))
             Text(

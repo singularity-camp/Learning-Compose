@@ -3,10 +3,8 @@ package kz.singularity.learningcompose.ui.views
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Checkbox
@@ -22,15 +20,14 @@ import kz.singularity.learningcompose.ui.theme.CustomTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ToDoItem(todo: Todo) {
+fun ToDoCard(todo: Todo, onTodoCompleteChange: (Todo) -> Unit) {
     Card(
         backgroundColor = CustomTheme.colors.ui01,
-        onClick = {},
+        onClick = { onTodoCompleteChange(todo.copy(completed = !todo.completed)) },
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp,
-      //  backgroundColor = if (todo.completed) MaterialTheme.colors.secondary else MaterialTheme.colors.surface,
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
@@ -45,7 +42,7 @@ fun ToDoItem(todo: Todo) {
                 )
                 Checkbox(
                     checked = todo.completed,
-                    onCheckedChange = null,
+                    onCheckedChange = { onTodoCompleteChange(todo.copy(completed = !todo.completed)) },
                     modifier = Modifier.padding(16.dp)
                 )
             }

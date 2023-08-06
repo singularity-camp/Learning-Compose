@@ -11,24 +11,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import kz.singularity.domain.models.User
 import kz.singularity.learningcompose.R
 import kz.singularity.learningcompose.navigation.Destinations
-import kz.singularity.learningcompose.ui.main.MainViewModel
 import kz.singularity.learningcompose.ui.theme.CustomTheme
-import kz.singularity.learningcompose.ui.users.UserPageViewModel
+import kz.singularity.learningcompose.ui.user_profile.ProfileViewModel
 import kz.singularity.learningcompose.ui.views.AddressCard
 import kz.singularity.learningcompose.ui.views.CompanyCard
-import kz.singularity.learningcompose.ui.views.UserInfo
+import kz.singularity.learningcompose.ui.views.UserInfoCard
 import org.koin.androidx.compose.get
 
 @Composable
 fun CurrentProfilePage(
     userId: Long,
     navController: NavController,
-    viewModel: UserPageViewModel = get()
+    viewModel: ProfileViewModel = get()
 ) {
-    val user = viewModel.getUserById(userId = userId)
+    val user = viewModel.userIdToUserMap[userId]
     if (user != null) {
         LazyColumn(
             modifier = Modifier.padding(16.dp),
@@ -43,7 +41,7 @@ fun CurrentProfilePage(
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.size(24.dp))
-                UserInfo(
+                UserInfoCard(
                     userEmail = user.email,
                     fullName = user.name,
                     phoneNumber = user.phone,

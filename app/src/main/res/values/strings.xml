@@ -16,5 +16,6 @@
     <string name="zipcode">Zipcode</string>
     <string name="todo">My ToDos</string>
     <string name="show_on_map">Show On Map</string>
+    <string name="by">By:</string>
 
 </resources>

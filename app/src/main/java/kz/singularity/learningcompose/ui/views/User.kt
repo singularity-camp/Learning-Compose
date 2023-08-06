@@ -9,14 +9,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kz.singularity.learningcompose.R
 import kz.singularity.learningcompose.ui.theme.CustomTheme
+/*
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.material.shimmer
+*/
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun User(
+fun UserCard(
     username: String,
     userEmail: String,
     name: String,
@@ -26,7 +30,11 @@ fun User(
         backgroundColor = CustomTheme.colors.ui01,
         onClick = onClick,
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            /*.placeholder(
+                visible = true,
+                highlight = PlaceholderHighlight.shimmer(),
+            ),*/,
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp,
     ) {

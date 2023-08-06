@@ -25,14 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.net.toUri
 import kz.singularity.learningcompose.R
 import kz.singularity.learningcompose.ui.theme.CustomTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun UserInfo(
+fun UserInfoCard(
     userEmail: String,
     fullName: String,
     phoneNumber: String,
